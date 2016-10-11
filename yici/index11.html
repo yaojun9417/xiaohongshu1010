@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小红书-找到国外的好东西！小红书福利社正品保证，保税仓闪电发货！</title>
+    <script src="js/angularjs/jquery-3.1.0.min.js"></script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            font-family: "微软雅黑";
+            color: #333333;
+            background-color: rgb(238,238,238);
+        }
+        a{
+            text-decoration: none;
+        }
+        .header{
+            width: 100%;
+            height: 120px;
+            border-bottom: 3px solid #f15467;
+            background-color: white;
+        }
+        .header img{
+            margin-top: 29px;
+        }
+        .header-nav{
+            padding-right: 5%;
+            float: right;
+            width: 70%;
+            height: 120px;
+            font-size: 10px;
+            color: #818181;
+            line-height: 120px;
+        }
+        .header-nav a{
+            display: inline-block;
+            width:15%;
+            text-align: center;
+            font-size: 18px;
+            color: #818181;
+        }
+        .header-nav a:hover{
+            text-decoration:underline ;
+        }
+        .header-nav .active{
+            color: #f15467;
+            font-weight: 700;
+        }
+        /*header-end*/
+        .slider{
+            width:100%;
+            height: 400px;
+            overflow: hidden;
+        }
+        .slider-img{
+            position: absolute;
+            margin: 0;
+            display: inline-block;
+            width: 7200px;
+            height: 400px;
+            background-color: white;
+            list-style-type: none;
+        }
+        .slider-img li{
+            float: left;
+        }
+        .slider-left,
+        .slider-right{
+            position: fixed;
+            display: inline-block;
+            padding-top:131px;
+            box-sizing: border-box;
+            width: 45px;
+            height: 400px;
+            opacity: 0.4;
+            background-color:white;
+            z-index: 100;
+        }
+        .slider-right{
+            float: right;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <img src="http://s4.xiaohongshu.com/static/img/web/home/logo_xhs_v2.png?s=1471971752" alt="">
+    <div class="header-nav">
+        |<a class="active" href="">首页</a>
+        |<a href="">福利社</a>
+        |<a href="">发现</a>
+        |<a href="">目的地</a>
+        |<a href="">媒体报道</a>
+        |<a href="">加入</a>|
+    </div>
+</header>
+<div class="main">
+    <div class="slider">
+        <a class="slider-left" href="">
+            <img src="http://s4.xiaohongshu.com/static/img/web/home/left_arrow.png?s=1471971752">
+        </a>
+        <a class="slider-right"  href="">
+            <img src="http://s4.xiaohongshu.com/static/img/web/home/right_arrow.png?s=1471971752">
+        </a>
+        <ul class="slider-img">
+            <li><img src="http://s4.xiaohongshu.com/static/img/web/home/banner_a.jpg?s=1475084382" alt="" /></li>
+            <li><img src="http://s4.xiaohongshu.com/static/img/web/home/banner_e.jpg?s=1471971752" alt="" /></li>
+            <li> <img class="" src="http://s4.xiaohongshu.com/static/img/web/home/banner_d.jpg?s=1471971752" alt="小红书_下载APP"
+                     style="left: 1200px; display: inline;"></li>
+        </ul>
+
+    </div>
+</div>
+<!--js---代码-->
+<script type="text/javascript">
+    var nowImg=0;
+    var lis=$(".slider-img li");
+    var $bannerIn=$(".slider-img");
+    //		克隆伪第一个
+    $(".slider-img li:first").clone().appendTo(".slider-img")
+    //		动画切换函数
+    function donghua(){
+        $bannerIn.animate({
+            "left":nowImg*(-1200)
+        },700)
+    }
+
+    //			按钮事件
+    $(".slider-left").click(function(){
+        if(!$bannerIn.is(":animated")){//判断是否在运动
+            if(nowImg>0){//用于区分是否在第一张图
+                nowImg--;
+                donghua();
+            }else{
+                nowImg=lis.length-1;//如果nowImg小于0就让它等于最大的值，就是跳到最后一张
+                $bannerIn.css("left",lis.length*-1200);//用于让它实现平滑的切换，lis.length*-1200就是克隆的最后一张的位置
+                donghua();
+            }
+        }
+    });
+    $(".slider-right").click(lunbo);//调用lunbo函数
+
+    function lunbo(){
+        if(!$bannerIn.is(":animated")){//判断是否在运动
+            if(nowImg<lis.length-1){//用于区分是否在第一张图
+                nowImg++;
+                console.log(nowImg)
+                donghua();
+            }else{
+                nowImg=0;//如果nowImg等于最大值就让它等于0，就是跳到第一张
+                $bannerIn.animate({"left":lis.length*(-1200)},700,function(){//用回调函数就是因为没有克隆最后一张的，
+                    //所以动画完成后让它平滑切换到第一张
+                    $bannerIn.css("left",0)//用于让它实现平滑的切换
+                })
+            }
+        }
+    }
+    //自动轮播
+    t=setInterval(lunbo,1500)//无限轮播
+    $(".slider").mouseenter(function() {//当鼠标移上来时就清除无限轮播事件
+        clearInterval(t);
+    });
+    $(".slider").mouseleave(function() {//当鼠标离开时就执行无限轮播
+        clearInterval(t);
+        t=setInterval(lunbo,1500)
+    });
+</script>
+</body>
+</html>
